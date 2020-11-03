@@ -5,6 +5,7 @@
     <RootNamespace>Chatbot_Webhook</RootNamespace>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerfileContext>.</DockerfileContext>
+    <AssemblyName>Chatbot_Webhook</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
