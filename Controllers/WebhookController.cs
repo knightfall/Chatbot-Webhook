@@ -18,7 +18,7 @@ namespace Chatbot_Webhook.Controllers
         [HttpGet("GetQuote")]
         public JsonResult Get([FromBody] BotQuoteRequest quoteRequest)
         {
-            var returned = new FetchPremium().OshcGetQuote(quoteRequest);
+            var returned = new FetchPremium().OshcGetQuote(quoteRequest).Result;
             return new JsonResult(returned);
         }
 

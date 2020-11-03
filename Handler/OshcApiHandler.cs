@@ -26,7 +26,6 @@ namespace Chatbot_Webhook.Handler
 
         public async Task<decimal?> NibApiHandler(BaseQuote bq)
         {
-            Console.WriteLine("NIB Start");
             var startDate = DateTime.Now.ToString("dd-MMM-yyyy");
             var endDate = DateTime.Now.AddMonths(bq.duration).AddDays(-1).ToString("dd-MMM-yyyy");
 
@@ -52,7 +51,6 @@ namespace Chatbot_Webhook.Handler
             };
             //  var client = _clientFactory.CreateClient();
             var t = await client.SendAsync(request).Result.Content.ReadAsStringAsync();
-            Console.WriteLine(t);
             return Decimal.Parse(t);
 
         }
@@ -65,7 +63,6 @@ namespace Chatbot_Webhook.Handler
         /// <returns></returns>
         public async Task<decimal?> MedibankQuoteHandler(BaseQuote bq)
         {
-            Console.WriteLine("Medibank Start");
             var startdate = DateTime.Now.ToString("d", new CultureInfo("en-AU"));
             var enddate = DateTime.Now.AddMonths(bq.duration).AddDays(-1).ToString("d", new CultureInfo("en-AU"));
             var request = new HttpRequestMessage
@@ -108,7 +105,6 @@ namespace Chatbot_Webhook.Handler
         /// <returns></returns>
         public async Task<decimal?> AhmQuoteHandler(BaseQuote bq)
         {
-            Console.WriteLine("AHM Start");
             var startdate = DateTime.Now.ToString("d", new CultureInfo("en-AU"));
             var enddate = DateTime.Now.AddMonths(bq.duration).AddDays(-1).ToString("d", new CultureInfo("en-AU"));
 
@@ -146,7 +142,6 @@ namespace Chatbot_Webhook.Handler
 
         public async Task<decimal?> AllianzQuoteHandler(BaseQuote bq)
         {
-            Console.WriteLine("Allianz Start");
             var startDate = DateTime.Now.ToString("yyyy-MM-dd");
             var endDate = DateTime.Now.AddMonths(bq.duration).AddDays(-1).ToString("yyyy-MM-dd");
             var request = new HttpRequestMessage
@@ -177,11 +172,12 @@ namespace Chatbot_Webhook.Handler
             };
 
             // var client = _clientFactory.CreateClient();
-            var response = await client.SendAsync(request);
-            var result = await response.Content.ReadAsStringAsync();
-            JObject jObject = JObject.Parse(result);
+            var response = client.SendAsync(request).Result.Content.ReadAsStringAsync().Result;
+
+            //var result = response.co
+            ////var result = await response.Content.ReadAsStringAsync();
+            JObject jObject = JObject.Parse(response);
             var tt = jObject["premium"]["amount"].ToString();
-            //var tt =  jObject.Parse(response)["premium"]["amount"].ToString();
             return Decimal.Parse(tt);
         }
         /// <summary>

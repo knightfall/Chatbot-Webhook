@@ -11,7 +11,7 @@ namespace Chatbot_Webhook.Worker
 {
     public class FetchPremium
     {
-        public OshcQuote OshcGetQuote(BotQuoteRequest quoteRequest)
+        public async Task<OshcQuote> OshcGetQuote(BotQuoteRequest quoteRequest)
         {
             string Covertype = quoteRequest.CoverType;
             int duration = quoteRequest.Duration;
@@ -67,23 +67,12 @@ namespace Chatbot_Webhook.Worker
 
             //Parallel request to reduce processing time
             //Might not work in linux based installations. Check before deploying
-            //Doesn't work in 5 dollar DigitalOcean droplets
-            decimal? _azp = 0;
-            decimal? _nib = 0;
-            decimal? _ahm = 0;
-            decimal? _medi = 0;
+            //Doesn't work in 5 dollar DigitalOcean droplet
 
-            Parallel.Invoke(
-                async () => _azp = await new OshcApiHandler().AllianzQuoteHandler(bq),
-                async () => _nib = await new OshcApiHandler().NibApiHandler(bq),
-                async () => _ahm = await new OshcApiHandler().AhmQuoteHandler(bq),
-                async () => _medi = await new OshcApiHandler().MedibankQuoteHandler(bq)
-            );
-
-            op.Allianz = _azp;
-            op.Nib = _nib;
-            op.Ahm = _ahm;
-            op.Medibank = _medi;
+            op.Allianz = await oshcApiHandler.AllianzQuoteHandler(bq);
+            op.Nib = await oshcApiHandler.AllianzQuoteHandler(bq);
+            op.Ahm = await oshcApiHandler.AhmQuoteHandler(bq);
+            op.Medibank = await oshcApiHandler.MedibankQuoteHandler(bq);
 
 
 
