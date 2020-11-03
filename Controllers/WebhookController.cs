@@ -15,7 +15,7 @@ namespace Chatbot_Webhook.Controllers
     public class WebhookController : ControllerBase
     {
         // GET: api/<WebhookController>
-        [HttpGet("test")]
+        [HttpGet("GetQuote")]
         public JsonResult Get([FromBody] BotQuoteRequest quoteRequest)
         {
             var returned = new FetchPremium().OshcGetQuote(quoteRequest);
