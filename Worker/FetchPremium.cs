@@ -74,13 +74,16 @@ namespace Chatbot_Webhook.Worker
             decimal? _medi = 0;
 
             Parallel.Invoke(
-                async () => _azp = await oshcApiHandler.AllianzQuoteHandler(bq),
-                async () => _nib = await oshcApiHandler.NibApiHandler(bq),
-                async () => _ahm = await oshcApiHandler.AhmQuoteHandler(bq),
-                async () => _medi = await oshcApiHandler.MedibankQuoteHandler(bq)
+                async () => _azp = await new OshcApiHandler().AllianzQuoteHandler(bq),
+                async () => _nib = await new OshcApiHandler().NibApiHandler(bq),
+                async () => _ahm = await new OshcApiHandler().AhmQuoteHandler(bq),
+                async () => _medi = await new OshcApiHandler().MedibankQuoteHandler(bq)
             );
 
-
+            op.Allianz = _azp;
+            op.Nib = _nib;
+            op.Ahm = _ahm;
+            op.Medibank = _medi;
 
 
 
