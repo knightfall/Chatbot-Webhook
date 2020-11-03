@@ -26,9 +26,7 @@ namespace Chatbot_Webhook.Handler
 
         public async Task<decimal?> NibApiHandler(BaseQuote bq)
         {
-            var stopwatch = new Stopwatch();
             Console.WriteLine("NIB Start");
-            stopwatch.Start();
             var startDate = DateTime.Now.ToString("dd-MMM-yyyy");
             var endDate = DateTime.Now.AddMonths(bq.duration).AddDays(-1).ToString("dd-MMM-yyyy");
 
@@ -54,8 +52,7 @@ namespace Chatbot_Webhook.Handler
             };
             //  var client = _clientFactory.CreateClient();
             var t = await client.SendAsync(request).Result.Content.ReadAsStringAsync();
-            Console.WriteLine($"NIB: {stopwatch.Elapsed.ToString()} has elapsed");
-            stopwatch.Stop();
+            Console.WriteLine(t);
             return Decimal.Parse(t);
 
         }
@@ -69,8 +66,6 @@ namespace Chatbot_Webhook.Handler
         public async Task<decimal?> MedibankQuoteHandler(BaseQuote bq)
         {
             Console.WriteLine("Medibank Start");
-            var stopwatch = new Stopwatch();
-            stopwatch.Start();
             var startdate = DateTime.Now.ToString("d", new CultureInfo("en-AU"));
             var enddate = DateTime.Now.AddMonths(bq.duration).AddDays(-1).ToString("d", new CultureInfo("en-AU"));
             var request = new HttpRequestMessage
@@ -102,8 +97,6 @@ namespace Chatbot_Webhook.Handler
             //  var client = _clientFactory.CreateClient();
             var response = await client.SendAsync(request).Result.Content.ReadAsStringAsync();
             var t = JObject.Parse(response)["amount"].ToString();
-            Console.WriteLine($"Medibank: {stopwatch.Elapsed.ToString()} has elapsed");
-            stopwatch.Stop();
             return Decimal.Parse(t);
         }
 
@@ -116,8 +109,6 @@ namespace Chatbot_Webhook.Handler
         public async Task<decimal?> AhmQuoteHandler(BaseQuote bq)
         {
             Console.WriteLine("AHM Start");
-            var stopwatch = new Stopwatch();
-            stopwatch.Start();
             var startdate = DateTime.Now.ToString("d", new CultureInfo("en-AU"));
             var enddate = DateTime.Now.AddMonths(bq.duration).AddDays(-1).ToString("d", new CultureInfo("en-AU"));
 
@@ -150,16 +141,12 @@ namespace Chatbot_Webhook.Handler
 
             // var client = _clientFactory.CreateClient();
             var response = await client.SendAsync(request).Result.Content.ReadAsStringAsync();
-            Console.WriteLine($"Ahm: {stopwatch.Elapsed.ToString()} has elapsed");
-            stopwatch.Stop();
             return Decimal.Parse(JObject.Parse(response)["amount"].ToString());
         }
 
         public async Task<decimal?> AllianzQuoteHandler(BaseQuote bq)
         {
             Console.WriteLine("Allianz Start");
-            var stopwatch = new Stopwatch();
-            stopwatch.Start();
             var startDate = DateTime.Now.ToString("yyyy-MM-dd");
             var endDate = DateTime.Now.AddMonths(bq.duration).AddDays(-1).ToString("yyyy-MM-dd");
             var request = new HttpRequestMessage
@@ -195,8 +182,6 @@ namespace Chatbot_Webhook.Handler
             JObject jObject = JObject.Parse(result);
             var tt = jObject["premium"]["amount"].ToString();
             //var tt =  jObject.Parse(response)["premium"]["amount"].ToString();
-            Console.WriteLine($"Allianz: {stopwatch.Elapsed.ToString()} has elapsed");
-            stopwatch.Stop();
             return Decimal.Parse(tt);
         }
         /// <summary>

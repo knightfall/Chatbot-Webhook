@@ -68,12 +68,19 @@ namespace Chatbot_Webhook.Worker
             //Parallel request to reduce processing time
             //Might not work in linux based installations. Check before deploying
             //Doesn't work in 5 dollar DigitalOcean droplets
+            decimal? _azp = 0;
+            decimal? _nib = 0;
+            decimal? _ahm = 0;
+            decimal? _medi = 0;
+
             Parallel.Invoke(
-                async () => op.Allianz = await oshcApiHandler.AllianzQuoteHandler(bq),
-                async () => op.Nib = await oshcApiHandler.NibApiHandler(bq),
-                async () => op.Ahm = await oshcApiHandler.AhmQuoteHandler(bq),
-                async () => op.Medibank = await oshcApiHandler.MedibankQuoteHandler(bq)
+                async () => _azp = await oshcApiHandler.AllianzQuoteHandler(bq),
+                async () => _nib = await oshcApiHandler.NibApiHandler(bq),
+                async () => _ahm = await oshcApiHandler.AhmQuoteHandler(bq),
+                async () => _medi = await oshcApiHandler.MedibankQuoteHandler(bq)
             );
+
+
 
 
 
